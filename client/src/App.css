@@ -1,0 +1,61 @@
+/* App.css */
+body {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.dashboard-container {
+  background: #242424;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.text-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 2px solid #444;
+  background: #1a1a1a;
+  color: white;
+  font-size: 1rem;
+  resize: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+/* Dynamic State Classes */
+.text-input.clean {
+  border-color: #10b981; /* Green */
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.text-input.toxic {
+  border-color: #ef4444; /* Red */
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.status-panel {
+  margin-top: 1.5rem;
+  min-height: 30px;
+  font-weight: 500;
+}
+
+.clean-text { color: #10b981; }
+.toxic-text { color: #ef4444; }
+
