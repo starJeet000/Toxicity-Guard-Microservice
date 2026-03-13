@@ -18,14 +18,16 @@ function App() {
     const validateText = async () => {
       setStatus('loading');
       try {
-        const response = await fetch('http://localhost:3005/api/validate-comment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ comment: inputText })
-        });
-        
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3005';
+        const response = await fetch(`${API_URL}/api/validate-comment`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ comment: inputText })
+          });
+
         const data = await response.json();
-        
+
         if (response.ok && data.approved) {
           setStatus('clean');
           setDetails(data);
@@ -55,7 +57,7 @@ function App() {
       <h1>🛡️ Toxicity Guard</h1>
       <p>Type a comment below. The AI will analyze it in real-time.</p>
 
-      <textarea 
+      <textarea
         className={`text-input ${status}`}
         placeholder="Type something here..."
         value={inputText}
@@ -70,7 +72,7 @@ function App() {
         )}
         {status === 'toxic' && (
           <p className="toxic-text">
-            ⚠️ <strong>Blocked:</strong> Flagged for <em>{details?.reason}</em>. 
+            ⚠️ <strong>Blocked:</strong> Flagged for <em>{details?.reason}</em>.
             Confidence: {(details?.confidence * 100).toFixed(1)}%
           </p>
         )}
