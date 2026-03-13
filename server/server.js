@@ -3,12 +3,12 @@ import cors from 'cors';
 import { checkToxicity } from './detect.js';
 
 const app = express();
-const PORT = process.env.PORT || 3005; 
+const PORT = process.env.PORT || 3005;
 
 // 1. Improved CORS for production
 app.use(cors({
   origin: '*', // Allows requests from any origin
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
 
@@ -31,9 +31,9 @@ app.post('/api/validate-comment', async (req, res) => {
     const result = await checkToxicity(comment);
 
     if (!result) {
-      return res.status(503).json({ 
-        error: "AI Service Unavailable", 
-        details: "Could not connect to Hugging Face API." 
+      return res.status(503).json({
+        error: "AI Service Unavailable",
+        details: "Could not connect to Hugging Face API."
       });
     }
 
