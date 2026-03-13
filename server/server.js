@@ -1,4 +1,3 @@
-// server.js
 import express from 'express';
 import cors from 'cors';
 import { checkToxicity } from './detect.js';
@@ -6,12 +5,24 @@ import { checkToxicity } from './detect.js';
 const app = express();
 const PORT = process.env.PORT || 3005; 
 
-app.use(cors());
+// 1. Improved CORS for production
+app.use(cors({
+  origin: '*', // Allows requests from any origin
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
 app.use(express.json());
+
+// 2. Added Health Check (Visit this in your browser to test)
+app.get('/', (req, res) => {
+  res.send({ status: "Server is live and running!" });
+});
 
 app.post('/api/validate-comment', async (req, res) => {
   try {
     const { comment } = req.body;
+    console.log("Incoming request for comment:", comment); // Debug log
 
     if (!comment) {
       return res.status(400).json({ error: "Comment is required." });
@@ -47,16 +58,6 @@ app.post('/api/validate-comment', async (req, res) => {
   }
 });
 
-// Start the server and listen for startup errors
-const server = app.listen(PORT, () => {
-  console.log(`🛡️  Toxicity Guard running on http://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
-server.on('error', (e) => {
-  if (e.code === 'EADDRINUSE') {
-    console.error(`❌ Port ${PORT} is already in use. Try killing the old process or changing the PORT.`);
-  } else {
-    console.error('❌ Server failed to start:', e);
-  }
-});
-
