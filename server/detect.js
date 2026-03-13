@@ -1,6 +1,6 @@
 // detect.js
-import { InferenceClient } from "@huggingface/inference";;
-import "dotenv/config";
+import "dotenv/config"; // Load environment variables first
+import { InferenceClient } from "@huggingface/inference";
 
 const hf = new InferenceClient(process.env.HF_API_KEY);
 
@@ -16,17 +16,25 @@ export async function checkToxicity(text) {
     // Flatten array in case the API returns nested results [[{...}]]
     const scores = Array.isArray(result) ? result.flat() : [result];
 
-    // Sort by highest confidence score
+    // Sort by highest confidence score to find the primary classification
     const sorted = scores.sort((a, b) => b.score - a.score);
     const topMatch = sorted[0];
 
     if (topMatch.score > 0.7) {
-      // It is toxic. Return the high toxicity score.
-      return { isToxic: true, label: topMatch.label, score: topMatch.score };
+      // It is toxic. Return the specific toxicity label (e.g., 'insult', 'toxic').
+      return { 
+        isToxic: true, 
+        label: topMatch.label, 
+        score: parseFloat(topMatch.score.toFixed(4)) 
+      };
     } else {
-      // It is clean. Invert the score (100% - toxicity chance = clean chance)
+      // It is clean. Calculate clean confidence based on the lack of toxicity.
       const cleanConfidence = 1 - topMatch.score;
-      return { isToxic: false, label: 'clean', score: cleanConfidence };
+      return { 
+        isToxic: false, 
+        label: 'clean', 
+        score: parseFloat(cleanConfidence.toFixed(4)) 
+      };
     }
 
   } catch (error) {
