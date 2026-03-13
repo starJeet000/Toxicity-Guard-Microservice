@@ -4,7 +4,6 @@ import cors from 'cors';
 import { checkToxicity } from './detect.js';
 
 const app = express();
-// Try port 3005 just in case 3000 is occupied by another React/Node app
 const PORT = process.env.PORT || 3005; 
 
 app.use(cors());

@@ -2,9 +2,9 @@
   "name": "spam-detector",
   "version": "1.0.0",
   "description": "",
-  "main": "detect.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node detect.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

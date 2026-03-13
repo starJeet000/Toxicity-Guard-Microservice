@@ -1,8 +1,8 @@
 // detect.js
-import { HfInference } from "@huggingface/inference";
+import { InferenceClient } from "@huggingface/inference";;
 import "dotenv/config";
 
-const hf = new HfInference(process.env.HF_API_KEY);
+const hf = new InferenceClient(process.env.HF_API_KEY);
 
 export async function checkToxicity(text) {
   console.log(`\n🔍 Analyzing: "${text}"...`);
